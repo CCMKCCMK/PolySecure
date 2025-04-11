@@ -142,7 +142,6 @@ class Client:
             self.client_socket.sendall(json.dumps(request).encode())
             response_data = self.client_socket.recv(4096)
             response = json.loads(response_data.decode())
-            print(response)
             
             if response['status'] == 'success':
                 self.session_key = session_key
@@ -633,7 +632,6 @@ class Client:
         }
         
         response = self.send_request(request)
-        print(response)
         
         if response['status'] == 'success':
             file_id = response['file_id']
