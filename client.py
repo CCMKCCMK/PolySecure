@@ -275,10 +275,10 @@ class Client:
 
             encrypted_private_key = encrypt_file(private_key, private_key_encryption_key[:32])
 
-            # 修改: 写入盐值和加密的私钥
+            # Store the salt and encrypted private key in a file
             with open(f"client_storage/{username}_private.key", "wb") as f:
-                f.write(priv_key_salt)  # 写入16字节的盐值
-                f.write(encrypted_private_key)  # 然后写入加密的私钥
+                f.write(priv_key_salt)
+                f.write(encrypted_private_key)
 
             self.print_status(f"Private key saved with salt (total size: {16 + len(encrypted_private_key)} bytes)",
                               "info")
@@ -287,9 +287,9 @@ class Client:
             self.otp_secret = response['otp_secret']
             encrypted_otp = encrypt_file(self.otp_secret.encode(), private_key_encryption_key[:32])
 
-            # 同样为OTP密钥保存盐值
+            # Save the salt and encrypted OTP in a file
             with open(f"client_storage/{username}_otp.key", "wb") as f:
-                f.write(priv_key_salt)  # 使用相同的盐值
+                f.write(priv_key_salt)
                 f.write(encrypted_otp)
 
             self.print_status(f"OTP secret saved with salt (total size: {16 + len(encrypted_otp)} bytes)", "info")
@@ -303,7 +303,7 @@ class Client:
             self.print_status(f"QR code saved to client_storage/{username}_otp_qr.png", "info")
             self.print_status("Please scan this QR code with your authenticator app for MFA setup.", "warning")
 
-            # 额外的用户说明
+            # Extra security information
             self.print_status("\nImportant security information:", "warning")
             self.print_status("1. Your private key is encrypted with your password", "info")
             self.print_status("2. If you forget your password, you cannot recover your encrypted data", "info")
@@ -366,22 +366,22 @@ class Client:
                     self.print_status(f"Private key file not found at {private_key_path}", "error")
                     return False
 
-                # 读取私钥文件内容
+                # Read the private key file
                 with open(private_key_path, "rb") as f:
                     file_content = f.read()
 
-                # 解析文件内容 - 检查文件大小确保它至少包含盐(16字节)
+                # Check the file size and make sure it's not corrupted
                 if len(file_content) <= 16:
                     self.print_status("Private key file is too small or corrupted", "error")
                     return False
 
-                # 解析盐和加密的私钥
+                # Analyze the file content
                 key_salt = file_content[:16]
                 encrypted_private_key = file_content[16:]
 
                 self.print_status(f"Using stored salt from key file: {key_salt.hex()}", "info")
 
-                # 使用文件中存储的盐派生密钥
+                # Using the same password-derived key for decryption
                 private_key_encryption_key, _ = hash_password(password, key_salt)
 
                 self.print_status("Attempting to decrypt private key...", "info")
@@ -391,14 +391,14 @@ class Client:
                 except Exception as e:
                     self.print_status(f"Error decrypting private key: {str(e)}", "error")
 
-                    # 尝试使用服务器盐作为备选方案
+                    # Try to use server salt as a fallback
                     self.print_status("Trying with server salt as fallback...", "info")
                     fallback_key, _ = hash_password(password, server_salt)
                     try:
                         private_key = decrypt_file(encrypted_private_key, fallback_key[:32])
                         self.print_status("Private key decrypted with server salt", "success")
 
-                        # 如果使用服务器盐成功，考虑重新写入文件
+                        # If successful, update the private key file with the correct salt
                         self.print_status("Updating private key file with correct salt...", "info")
                         with open(private_key_path, "wb") as f:
                             f.write(server_salt)
@@ -407,7 +407,7 @@ class Client:
                         self.print_status("All decryption attempts failed", "error")
                         return False
 
-                # 加载OTP密钥(如果存在)
+                # Load the private key for signing
                 try:
                     otp_path = f"client_storage/{username}_otp.key"
                     if os.path.exists(otp_path):
@@ -415,21 +415,21 @@ class Client:
                         with open(otp_path, "rb") as f:
                             otp_content = f.read()
 
-                        # 同样解析盐和加密的OTP
+                        # Check the file size and make sure it's not corrupted
                         if len(otp_content) > 16:
                             otp_salt = otp_content[:16]
                             encrypted_otp = otp_content[16:]
 
-                            # 使用相同的派生密钥
+                            # Using the same password-derived key for decryption
                             otp_secret = decrypt_file(encrypted_otp, private_key_encryption_key[:32]).decode()
                             self.print_status(f"Your OTP secret: {otp_secret}", "info")
                         else:
-                            # 处理旧格式的OTP文件
+                            # Fallback to old format
                             encrypted_otp = otp_content
                             otp_secret = decrypt_file(encrypted_otp, private_key_encryption_key[:32]).decode()
                             self.print_status(f"Your OTP secret (old format): {otp_secret}", "info")
 
-                            # 更新OTP文件格式
+                            # Update the OTP file with the correct salt
                             with open(otp_path, "wb") as f:
                                 f.write(key_salt)
                                 f.write(encrypt_file(otp_secret.encode(), private_key_encryption_key[:32]))
@@ -483,7 +483,7 @@ class Client:
             self.print_status("You must be logged in to reset your password", "error")
             return False
 
-        # 保存原始文件密钥缓存
+        # Save the current file keys for later restoration
         original_file_keys = self.file_keys.copy()
         self.print_status(f"Saved {len(original_file_keys)} file keys for later restoration", "info")
 
@@ -549,10 +549,10 @@ class Client:
             private_key_encryption_key, priv_key_salt = hash_password(new_password)
             encrypted_private_key = encrypt_file(self.private_key, private_key_encryption_key[:32])
 
-            # 修改：正确保存盐值和加密的私钥
+            # Save the salt and encrypted private key in a file
             with open(f"client_storage/{username}_private.key", "wb") as f:
-                f.write(priv_key_salt)  # 保存盐值
-                f.write(encrypted_private_key)  # 然后保存加密的私钥
+                f.write(priv_key_salt)
+                f.write(encrypted_private_key)
 
             self.print_status(f"Private key saved with salt (total size: {16 + len(encrypted_private_key)} bytes)",
                               "info")
@@ -561,14 +561,14 @@ class Client:
             if hasattr(self, 'otp_secret') and self.otp_secret:
                 encrypted_otp = encrypt_file(self.otp_secret.encode(), private_key_encryption_key[:32])
 
-                # 修改：同样为OTP正确保存盐值
+                # Store the salt and encrypted OTP in a file
                 with open(f"client_storage/{username}_otp.key", "wb") as f:
-                    f.write(priv_key_salt)  # 使用相同的盐值
+                    f.write(priv_key_salt)
                     f.write(encrypted_otp)
 
                 self.print_status(f"OTP secret saved with salt (total size: {16 + len(encrypted_otp)} bytes)", "info")
 
-            # 恢复文件密钥缓存
+            # Recover file keys
             self.file_keys = original_file_keys
             self.print_status(f"Restored access to {len(self.file_keys)} files", "success")
 

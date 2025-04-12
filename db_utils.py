@@ -84,21 +84,6 @@ def init_db(db_path="server_storage.db"):
     )
     ''')
     
-    # # Create initial admin account if not exists
-    # cursor.execute("SELECT * FROM users WHERE username = 'admin'")
-    # if not cursor.fetchone():
-    #     from crypto_utils import hash_password, generate_key_pair
-    #     import os
-        
-    #     admin_password = "admin123"  # This should be changed in production
-    #     key, salt = hash_password(admin_password)
-    #     private_key, public_key = generate_key_pair()
-        
-    #     cursor.execute(
-    #         "INSERT INTO users (username, password_hash, salt, public_key, is_admin) VALUES (?, ?, ?, ?, 1)",
-    #         ("admin", key, salt, public_key)
-    #     )
-    
     conn.commit()
     conn.close()
 
