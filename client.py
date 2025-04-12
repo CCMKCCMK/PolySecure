@@ -5,8 +5,6 @@ import base64
 import getpass
 import ssl
 import platform
-from cryptography.hazmat.primitives import serialization
-
 from crypto_utils import *
 
 class Colors:
