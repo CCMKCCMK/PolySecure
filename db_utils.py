@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from datetime import datetime
 
@@ -9,6 +10,11 @@ def init_db(db_path="server_storage.db"):
     Args:
         db_path (str): Path to SQLite database file
     """
+    # If find server_storage_test.db exists, it will be deleted
+    if os.path.exists('server_storage_test.db'):
+        os.remove('server_storage_test.db')
+    
+    # Create database connection      
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
