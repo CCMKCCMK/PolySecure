@@ -1,8 +1,8 @@
-# Secure Storage System
+# PolySecure System
 
 **User Manual**
 
-*Repository: [https://github.com/CCMKCCMK/Security_Project.git](https://github.com/CCMKCCMK/Security_Project.git)*
+*Repository: [https://github.com/CCMKCCMK/PolySecure.git](https://github.com/CCMKCCMK/PolySecure.git)*
 
 *Last Updated: April 12, 2025*
 
@@ -10,7 +10,7 @@
 
 ## 1. Overview
 
-The Secure Storage System is an end-to-end encrypted file storage application that allows users to securely store, share, and manage their files. This manual provides detailed instructions for deploying and using the application on Windows 11.
+The PolySecure System is an end-to-end encrypted file storage application that allows users to securely store, share, and manage their files. This manual provides detailed instructions for deploying and using the application on Windows 11.
 
 **Key Security Features:**
 
@@ -55,10 +55,10 @@ If you don't have Python installed on your Windows 11 system:
 1.  Clone the repository or download the application files:
     *   **Using Git:**
         ```bash
-        git clone https://github.com/CCMKCCMK/Security_Project.git
-        cd Security_Project
+        git clone https://github.com/CCMKCCMK/PolySecure.git
+        cd PolySecure
         ```
-    *   **Manual Download:** Download the ZIP file from the GitHub repository. Extract all files to a folder on your computer (e.g., `C:\Security_Project`)
+    *   **Manual Download:** Download the ZIP file from the GitHub repository. Extract all files to a folder on your computer (e.g., `C:\PolySecure`)
 2.  Make sure all the following files are present:
     *   `client.py`
     *   `server.py`
@@ -72,7 +72,7 @@ If you don't have Python installed on your Windows 11 system:
 
 Using a virtual environment keeps project dependencies isolated.
 
-1.  Open Command Prompt in the project directory (`Security_Project`).
+1.  Open Command Prompt in the project directory (`PolySecure`).
 2.  Create a virtual environment named `venv`:
     ```bash
     python -m venv venv
@@ -139,28 +139,29 @@ If running the server and client on different machines on the same network:
     ```
     ┌───────────────────────────────────────────────────────┐
     │                                                       │
-    │   SECURE STORAGE SERVER                               │
+    │   POLYSECURE SERVER                                   │
+    │   End-to-End Encrypted File Storage                   │
     │                                                       │
     │   Version: 1.0                                        │
     │   Implements: TLS, AES-GCM, RSA, PBKDF2, TOTP         │
     │                                                       │
     └───────────────────────────────────────────────────────┘
 
-    [2025-04-13 02:21:05] [INFO] Initializing database...
-    [2025-04-13 02:21:05] [SUCCESS] Database initialized
-    [2025-04-13 02:21:05] [INFO] Creating admin account...
-    [2025-04-13 02:21:05] [INFO] Admin account already exists
-    [2025-04-13 02:21:05] [INFO] Creating communication session for admin...
-    [2025-04-13 02:21:05] [SUCCESS] Communication session created for admin at admin@localhost
-    [2025-04-13 02:21:05] [SUCCESS] Admin account created or verified
-    [2025-04-13 02:21:05] [INFO] Generating server cryptographic keys...
-    [2025-04-13 02:21:05] [SUCCESS] Server keys generated
-    [2025-04-13 02:21:05] [INFO] Setting up file storage...
-    [2025-04-13 02:21:05] [SUCCESS] File storage ready
-    [2025-04-13 02:21:05] [INFO] Configuring SSL/TLS...
-    [2025-04-13 02:21:06] [SUCCESS] SSL/TLS configured
-    [2025-04-13 02:21:06] [SUCCESS] Server started on localhost:9999
-    [2025-04-13 02:21:06] [INFO] Waiting for client connections...
+    [2025-04-13 17:18:40] [INFO] Initializing database...
+    [2025-04-13 17:18:40] [SUCCESS] Database initialized
+    [2025-04-13 17:18:40] [INFO] Creating admin account...
+    [2025-04-13 17:18:40] [INFO] Admin account already exists
+    [2025-04-13 17:18:40] [INFO] Creating communication session for admin...
+    [2025-04-13 17:18:40] [SUCCESS] Communication session created for admin at admin@localhost
+    [2025-04-13 17:18:40] [SUCCESS] Admin account created or verified
+    [2025-04-13 17:18:40] [INFO] Generating server cryptographic keys...
+    [2025-04-13 17:18:41] [SUCCESS] Server keys generated
+    [2025-04-13 17:18:41] [INFO] Setting up file storage...
+    [2025-04-13 17:18:41] [SUCCESS] File storage ready
+    [2025-04-13 17:18:41] [INFO] Configuring SSL/TLS...
+    [2025-04-13 17:18:41] [SUCCESS] SSL/TLS configured
+    [2025-04-13 17:18:41] [SUCCESS] Server started on localhost:9999
+    [2025-04-13 17:18:41] [INFO] Waiting for client connections...
     ```
 
 > **Important:** Keep the server window open. Closing it will shut down the server.
@@ -178,7 +179,7 @@ If running the server and client on different machines on the same network:
     ```
     ╔═══════════════════════════════════════════════════╗
     ║                                                   ║
-    ║   SECURE STORAGE SYSTEM                           ║
+    ║   POLYSECURE SYSTEM                               ║
     ║   End-to-End Encrypted File Storage               ║
     ║                                                   ║
     ╚═══════════════════════════════════════════════════╝
@@ -188,7 +189,7 @@ If running the server and client on different machines on the same network:
     [i] Establishing secure session...
     [✓] Secure session established
 
-    Secure Storage Client - Not Logged In
+    PolySecure Client - Not Logged In
     1. Register
     2. Login
     0. Exit
@@ -410,7 +411,7 @@ The system implements a true end-to-end encryption approach where:
 ### 8.2 Directory Structure
 
 ```
-/Security_Project
+/PolySecure
 |-- client.py             # Client application
 |-- server.py             # Server application
 |-- crypto_utils.py       # Cryptography functions
@@ -418,7 +419,6 @@ The system implements a true end-to-end encryption approach where:
 |-- otp.py                # OTP functions
 |-- requirements.txt      # Dependencies
 |-- README.md             # This manual
-|-- user_manual.html      # Original HTML manual
 |-- server.crt            # SSL certificate (generated)
 |-- server.key            # SSL private key (generated)
 |-- server_storage.db     # Server database (created)
@@ -426,7 +426,7 @@ The system implements a true end-to-end encryption approach where:
 |-- /client_downloads/    # Default location for downloaded files (created)
 |-- /client_storage/      # Client keys and QR codes (created)
 |-- /file_storage/        # Server-side storage for large files (created)
-|-- /__pycache__/         # Python cache
+|-- /__pycache__/         # Python cache (created)
 ```
 
 ### 8.3 Default Configuration
@@ -441,5 +441,5 @@ The system implements a true end-to-end encryption approach where:
 
 ---
 
-© 2025 Secure Storage System
+© 2025 PolySecure System
 This document is confidential and contains proprietary information.

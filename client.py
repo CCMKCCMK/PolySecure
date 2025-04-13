@@ -61,7 +61,7 @@ class Client:
 {Colors.BLUE}{Colors.BOLD}
 ╔═══════════════════════════════════════════════════╗
 ║                                                   ║
-║   {Colors.GREEN}SECURE STORAGE SYSTEM{Colors.BLUE}                           ║
+║   {Colors.GREEN}POLYSECURE SYSTEM{Colors.BLUE}                               ║
 ║   {Colors.YELLOW}End-to-End Encrypted File Storage{Colors.BLUE}               ║
 ║                                                   ║
 ╚═══════════════════════════════════════════════════╝{Colors.ENDC}
@@ -1025,7 +1025,7 @@ class Client:
     def show_menu(self):
         """Display interactive menu based on user's login state"""
         if not self.username:
-            print(f"\n{Colors.BLUE}{Colors.BOLD}Secure Storage Client - Not Logged In{Colors.ENDC}")
+            print(f"\n{Colors.BLUE}{Colors.BOLD}PolySecure Client - Not Logged In{Colors.ENDC}")
             print(f"{Colors.YELLOW}1.{Colors.ENDC} Register")
             print(f"{Colors.YELLOW}2.{Colors.ENDC} Login")
             print(f"{Colors.YELLOW}0.{Colors.ENDC} Exit")
@@ -1039,7 +1039,7 @@ class Client:
             elif choice == '0':
                 return False
         else:
-            print(f"\n{Colors.BLUE}{Colors.BOLD}Secure Storage Client - Logged in as:{Colors.ENDC} {Colors.GREEN}{self.username}{Colors.ENDC}")
+            print(f"\n{Colors.BLUE}{Colors.BOLD}PolySecure Client - Logged in as:{Colors.ENDC} {Colors.GREEN}{self.username}{Colors.ENDC}")
             if self.is_admin:
                 print(f"{Colors.RED}(Administrator){Colors.ENDC}")
                 

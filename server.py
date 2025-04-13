@@ -73,7 +73,7 @@ class Server:
         banner = """
 ┌───────────────────────────────────────────────────────┐
 │                                                       │
-│   SECURE STORAGE SERVER                               │
+│   POLYSECURE SERVER                                   │
 │   End-to-End Encrypted File Storage                   │
 │                                                       │
 │   Version: 1.0                                        │
